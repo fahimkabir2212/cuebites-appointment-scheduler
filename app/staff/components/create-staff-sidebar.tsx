@@ -257,7 +257,7 @@ export function CreateStaffSidebar() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-[420px] overflow-y-auto">
+      <SheetContent side="right" className="w-105 overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Create Staff</SheetTitle>
         </SheetHeader>
@@ -265,7 +265,7 @@ export function CreateStaffSidebar() {
         <div className="m-4 space-y-6">
           {/* Name */}
           <div>
-            <Label>
+            <Label className="mb-2">
               Name <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -282,7 +282,7 @@ export function CreateStaffSidebar() {
 
           {/* Email */}
           <div>
-            <Label>
+            <Label className="mb-2">
               Email <span className="text-red-500">*</span>
             </Label>
             <Input
