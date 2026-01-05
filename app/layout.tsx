@@ -36,8 +36,10 @@ export default async function RootLayout({
         <Toaster />
         <SidebarProvider defaultOpen={defaultOpen}>
           <AppSidebar />
-          <main>
-            <SidebarTrigger />
+          <main className="bg-zinc-100 w-full">
+            <div className="bg-white p-2 border-b border-zinc-200">
+              <SidebarTrigger />
+            </div>
             {children}
           </main>
         </SidebarProvider>

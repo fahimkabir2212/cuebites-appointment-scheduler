@@ -10,30 +10,71 @@ datasource db {
   provider = "sqlite"
 }
 
-model Staff {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  isActive  Boolean  @default(true)
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
 
-  bookings  Booking[]
+model Staff {
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  isActive Boolean @default(true)
+
+  bookings       Booking[]
+  availabilities StaffAvailability[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model StaffAvailability {
+  id Int @id @default(autoincrement())
+
+  staffId Int
+  staff   Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  dayOfWeek  DayOfWeek
+  timeRanges AvailabilityTimeRange[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([staffId, dayOfWeek])
+}
+
+model AvailabilityTimeRange {
+  id Int @id @default(autoincrement())
+
+  availabilityId Int
+  availability   StaffAvailability @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+
+  startMinute Int
+  endMinute   Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([availabilityId])
+}
+
 model Booking {
   id Int @id @default(autoincrement())
 
-  staffId  Int
-  staff    Staff  @relation(fields: [staffId], references: [id])
+  staffId Int
+  staff   Staff @relation(fields: [staffId], references: [id])
 
-  clientName String
+  clientName  String
   clientPhone String
 
-  startTime DateTime
-  endTime   DateTime
-  address   String?
+  startTime    DateTime
+  endTime      DateTime
+  address      String?
   instructions String?
 
   createdAt DateTime @default(now())
