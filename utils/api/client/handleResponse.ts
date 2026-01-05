@@ -7,15 +7,16 @@ interface ApiError {
 
 export async function handleResponse<T = any>(
   response: Response,
-  url: string
+  url: string,
+  accessToken?: string
 ): Promise<T | ApiError> {
   if (!response.ok) {
     console.error(`API request failed for ${url}:`, response.status);
 
-    // // Handle unauthorized
-    // if (accessToken && response.status === 401) {
-    //   await logout();
-    // }
+    // Handle unauthorized
+    if (accessToken && response.status === 401) {
+      console.error("Unauthorized request - invalid or expired token.");
+    }
 
     // Check if response is JSON
     const contentType = response.headers.get("content-type");
